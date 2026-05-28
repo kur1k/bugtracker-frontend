@@ -1,25 +1,13 @@
-﻿import { useState, useEffect } from 'react'
-useEffect(() => {
-
-    fetch('http://127.0.0.1:8000/api/bugs/')
-        .then((response) => response.json())
-        .then((data) => {
-            setBugs(data)
-        })
-
-}, [])
+﻿import { useState } from 'react'
 import './App.css'
 
 function App() {
 
-    // LOGIN STATE
     const [loggedIn, setLoggedIn] = useState(false)
 
-    // PAGE STATE
     const [page, setPage] = useState('dashboard')
 
-    // BUGS STATE
-    const [bugs, setBugs] = useState([])
+    const [bugs, setBugs] = useState([
         {
             id: 1,
             title: 'Login Error',
@@ -36,51 +24,29 @@ function App() {
         }
     ])
 
-    // FORM STATE
     const [title, setTitle] = useState('')
     const [priority, setPriority] = useState('High')
 
-    // CREATE BUG
     const createBug = () => {
 
         const newBug = {
+            id: bugs.length + 1,
             title: title,
             status: 'Open',
             priority: priority,
             author: 'igor'
         }
 
-        fetch('http://127.0.0.1:8000/api/bugs/', {
+        setBugs([...bugs, newBug])
 
-            method: 'POST',
+        setTitle('')
+        setPriority('High')
 
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify(newBug)
-
-        })
-
-            .then((response) => response.json())
-
-            .then((data) => {
-
-                setBugs([
-                    ...bugs,
-                    data
-                ])
-
-                setTitle('')
-                setPriority('High')
-
-                setPage('dashboard')
-
-            })
+        setPage('dashboard')
     }
 
-    // LOGIN PAGE
     if (!loggedIn) {
+
         return (
             <div className="login-page">
 
@@ -89,7 +55,11 @@ function App() {
                     <h1>Bug Tracking System</h1>
 
                     <input placeholder="Username" />
-                    <input placeholder="Password" type="password" />
+
+                    <input
+                        type="password"
+                        placeholder="Password"
+                    />
 
                     <button
                         className="login-btn"
@@ -108,7 +78,6 @@ function App() {
 
         <div className="app">
 
-            {/* SIDEBAR */}
             <aside className="sidebar">
 
                 <h2>🐞 Bug Tracker</h2>
@@ -131,10 +100,8 @@ function App() {
 
             </aside>
 
-            {/* MAIN */}
             <main className="main">
 
-                {/* DASHBOARD */}
                 {page === 'dashboard' && (
 
                     <div>
@@ -152,7 +119,6 @@ function App() {
 
                         </div>
 
-                        {/* CARDS */}
                         <div className="cards">
 
                             <div className="card">
@@ -161,7 +127,7 @@ function App() {
                             </div>
 
                             <div className="card">
-                                <h3>Open</h3>
+                                <h3>Open Bugs</h3>
                                 <p>
                                     {
                                         bugs.filter(
@@ -184,7 +150,6 @@ function App() {
 
                         </div>
 
-                        {/* TABLE */}
                         <div className="table-container">
 
                             <table>
@@ -209,17 +174,9 @@ function App() {
 
                                             <td>{bug.title}</td>
 
-                                            <td>
-                                                <span className="status open">
-                                                    {bug.status}
-                                                </span>
-                                            </td>
+                                            <td>{bug.status}</td>
 
-                                            <td>
-                                                <span className="priority high">
-                                                    {bug.priority}
-                                                </span>
-                                            </td>
+                                            <td>{bug.priority}</td>
 
                                             <td>{bug.author}</td>
 
@@ -237,7 +194,6 @@ function App() {
 
                 )}
 
-                {/* CREATE BUG */}
                 {page === 'create' && (
 
                     <div>
@@ -280,7 +236,6 @@ function App() {
 
                 )}
 
-                {/* ADMIN */}
                 {page === 'admin' && (
 
                     <div>
@@ -313,12 +268,6 @@ function App() {
                                         <td>developer</td>
                                         <td>Developer</td>
                                         <td>Active</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>tester</td>
-                                        <td>Tester</td>
-                                        <td>Blocked</td>
                                     </tr>
 
                                 </tbody>
