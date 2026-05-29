@@ -1,289 +1,133 @@
-﻿import { useState } from 'react'
-import './App.css'
+﻿import { useState } from "react";
+import "./App.css";
 
 function App() {
-
-    const [loggedIn, setLoggedIn] = useState(false)
-
-    const [page, setPage] = useState('dashboard')
+    const [page, setPage] = useState("dashboard");
 
     const [bugs, setBugs] = useState([
         {
             id: 1,
-            title: 'Login Error',
-            status: 'Open',
-            priority: 'High',
-            author: 'igor'
+            description: "Login Error",
+            status: "Open",
+            assignee: "igor",
         },
         {
             id: 2,
-            title: '500 Server Error',
-            status: 'In Progress',
-            priority: 'Medium',
-            author: 'developer'
-        }
-    ])
+            description: "500 Server Error",
+            status: "In Progress",
+            assignee: "developer",
+        },
+    ]);
 
-    const [title, setTitle] = useState('')
-    const [priority, setPriority] = useState('High')
+    const [description, setDescription] = useState("");
+    const [status, setStatus] = useState("Open");
+    const [assignee, setAssignee] = useState("");
 
     const createBug = () => {
+        if (!description || !assignee) return;
 
         const newBug = {
             id: bugs.length + 1,
-            title: title,
-            status: 'Open',
-            priority: priority,
-            author: 'igor'
-        }
+            description,
+            status,
+            assignee,
+        };
 
-        setBugs([...bugs, newBug])
+        setBugs([...bugs, newBug]);
 
-        setTitle('')
-        setPriority('High')
+        setDescription("");
+        setStatus("Open");
+        setAssignee("");
 
-        setPage('dashboard')
-    }
-
-    if (!loggedIn) {
-
-        return (
-            <div className="login-page">
-
-                <div className="login-card">
-
-                    <h1>Bug Tracking System</h1>
-
-                    <input placeholder="Username" />
-
-                    <input
-                        type="password"
-                        placeholder="Password"
-                    />
-
-                    <button
-                        className="login-btn"
-                        onClick={() => setLoggedIn(true)}
-                    >
-                        Login
-                    </button>
-
-                </div>
-
-            </div>
-        )
-    }
+        setPage("dashboard");
+    };
 
     return (
-
-        <div className="app">
-
+        <div className="container">
             <aside className="sidebar">
+                <h2>Bug Tracker</h2>
 
-                <h2>🐞 Bug Tracker</h2>
-
-                <button onClick={() => setPage('dashboard')}>
+                <button onClick={() => setPage("dashboard")}>
                     Dashboard
                 </button>
 
-                <button onClick={() => setPage('create')}>
+                <button onClick={() => setPage("create")}>
                     Create Bug
                 </button>
-
-                <button onClick={() => setPage('admin')}>
-                    Admin Panel
-                </button>
-
-                <button onClick={() => setLoggedIn(false)}>
-                    Logout
-                </button>
-
             </aside>
 
-            <main className="main">
+            <main className="content">
+                {page === "dashboard" && (
+                    <>
+                        <h1>Dashboard</h1>
 
-                {page === 'dashboard' && (
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Assignee</th>
+                                </tr>
+                            </thead>
 
-                    <div>
-
-                        <div className="topbar">
-
-                            <h1>Dashboard</h1>
-
-                            <button
-                                className="create-btn"
-                                onClick={() => setPage('create')}
-                            >
-                                + Create Bug
-                            </button>
-
-                        </div>
-
-                        <div className="cards">
-
-                            <div className="card">
-                                <h3>Total Bugs</h3>
-                                <p>{bugs.length}</p>
-                            </div>
-
-                            <div className="card">
-                                <h3>Open Bugs</h3>
-                                <p>
-                                    {
-                                        bugs.filter(
-                                            bug => bug.status === 'Open'
-                                        ).length
-                                    }
-                                </p>
-                            </div>
-
-                            <div className="card">
-                                <h3>High Priority</h3>
-                                <p>
-                                    {
-                                        bugs.filter(
-                                            bug => bug.priority === 'High'
-                                        ).length
-                                    }
-                                </p>
-                            </div>
-
-                        </div>
-
-                        <div className="table-container">
-
-                            <table>
-
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Status</th>
-                                        <th>Priority</th>
-                                        <th>Author</th>
+                            <tbody>
+                                {bugs.map((bug) => (
+                                    <tr key={bug.id}>
+                                        <td>#{bug.id}</td>
+                                        <td>{bug.description}</td>
+                                        <td>{bug.status}</td>
+                                        <td>{bug.assignee}</td>
                                     </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    {bugs.map((bug) => (
-
-                                        <tr key={bug.id}>
-
-                                            <td>#{bug.id}</td>
-
-                                            <td>{bug.title}</td>
-
-                                            <td>{bug.status}</td>
-
-                                            <td>{bug.priority}</td>
-
-                                            <td>{bug.author}</td>
-
-                                        </tr>
-
-                                    ))}
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
-                    </div>
-
+                                ))}
+                            </tbody>
+                        </table>
+                    </>
                 )}
 
-                {page === 'create' && (
+                {page === "create" && (
+                    <>
+                        <h1>Create Bug</h1>
 
-                    <div>
-
-                        <div className="topbar">
-                            <h1>Create Bug</h1>
-                        </div>
-
-                        <div className="form-card">
-
+                        <div className="form">
                             <input
-                                placeholder="Bug title"
-                                value={title}
+                                type="text"
+                                placeholder="Description"
+                                value={description}
                                 onChange={(e) =>
-                                    setTitle(e.target.value)
+                                    setDescription(e.target.value)
                                 }
                             />
 
                             <select
-                                value={priority}
+                                value={status}
                                 onChange={(e) =>
-                                    setPriority(e.target.value)
+                                    setStatus(e.target.value)
                                 }
                             >
-                                <option>High</option>
-                                <option>Medium</option>
-                                <option>Low</option>
+                                <option>Open</option>
+                                <option>In Progress</option>
+                                <option>Closed</option>
                             </select>
 
-                            <button
-                                className="create-btn"
-                                onClick={createBug}
-                            >
-                                Create Bug
+                            <input
+                                type="text"
+                                placeholder="Assignee"
+                                value={assignee}
+                                onChange={(e) =>
+                                    setAssignee(e.target.value)
+                                }
+                            />
+
+                            <button onClick={createBug}>
+                                Create
                             </button>
-
                         </div>
-
-                    </div>
-
+                    </>
                 )}
-
-                {page === 'admin' && (
-
-                    <div>
-
-                        <div className="topbar">
-                            <h1>Admin Panel</h1>
-                        </div>
-
-                        <div className="table-container">
-
-                            <table>
-
-                                <thead>
-                                    <tr>
-                                        <th>User</th>
-                                        <th>Role</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    <tr>
-                                        <td>admin</td>
-                                        <td>Administrator</td>
-                                        <td>Active</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>developer</td>
-                                        <td>Developer</td>
-                                        <td>Active</td>
-                                    </tr>
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
-                    </div>
-
-                )}
-
             </main>
-
         </div>
-    )
+    );
 }
 
-export default App
+export default App;
