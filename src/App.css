@@ -6,7 +6,33 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f4f6f9;
+  background: #f5f7fb;
+}
+
+.login-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0f172a;
+}
+
+.login-box {
+  width: 400px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.login-box h1 {
+  margin-bottom: 20px;
+}
+
+.login-box input,
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
 }
 
 .container {
@@ -14,36 +40,31 @@ body {
   min-height: 100vh;
 }
 
-/* Sidebar */
-
 .sidebar {
-  width: 240px;
-  background: #0f172a;
+  width: 260px;
+  background: #111827;
   color: white;
   padding: 20px;
 }
 
 .sidebar h2 {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .sidebar button {
   width: 100%;
-  margin-bottom: 10px;
   padding: 12px;
+  margin-bottom: 10px;
+  background: #1f2937;
+  color: white;
   border: none;
   border-radius: 8px;
-  background: #1e293b;
-  color: white;
   cursor: pointer;
-  font-size: 15px;
 }
 
 .sidebar button:hover {
-  background: #334155;
+  background: #374151;
 }
-
-/* Main Content */
 
 .content {
   flex: 1;
@@ -52,50 +73,63 @@ body {
 
 .content h1 {
   margin-bottom: 20px;
-  color: #111827;
 }
 
-/* Table */
+.cards {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 220px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.card p {
+  font-size: 30px;
+  margin-top: 10px;
+}
 
 table {
   width: 100%;
-  border-collapse: collapse;
   background: white;
-  border-radius: 10px;
+  border-collapse: collapse;
+  border-radius: 12px;
   overflow: hidden;
 }
 
-thead {
-  background: #e5e7eb;
-}
-
 th {
-  padding: 15px;
+  background: #e5e7eb;
+  padding: 14px;
   text-align: left;
 }
 
 td {
-  padding: 15px;
-  border-top: 1px solid #e5e7eb;
+  padding: 14px;
+  border-top: 1px solid #eee;
 }
-
-/* Form */
 
 .form {
   background: white;
+  max-width: 700px;
   padding: 25px;
-  border-radius: 10px;
-  max-width: 500px;
+  border-radius: 12px;
 }
 
 .form input,
-.form select {
+.form select,
+.form textarea {
   width: 100%;
   padding: 12px;
   margin-bottom: 15px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 15px;
+}
+
+.form textarea {
+  height: 120px;
+  resize: none;
 }
 
 .form button {
@@ -106,9 +140,13 @@ td {
   color: white;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
 }
 
 .form button:hover {
   background: #1d4ed8;
+}
+
+td button {
+  margin-right: 8px;
+  padding: 6px 12px;
 }
