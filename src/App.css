@@ -4,6 +4,13 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: #f5f7fb;
@@ -48,7 +55,7 @@ body {
 }
 
 .sidebar h2 {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .sidebar button {
@@ -78,13 +85,15 @@ body {
 .cards {
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .card {
+  flex: 1;
+  min-width: 220px;
   background: white;
   padding: 25px;
   border-radius: 12px;
-  width: 220px;
   box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 
@@ -114,9 +123,10 @@ td {
 
 .form {
   background: white;
-  max-width: 700px;
   padding: 25px;
   border-radius: 12px;
+  width: 100%;
+  max-width: 700px;
 }
 
 .form input,
@@ -129,7 +139,7 @@ td {
 
 .form textarea {
   height: 120px;
-  resize: none;
+  resize: vertical;
 }
 
 .form button {
@@ -147,6 +157,53 @@ td {
 }
 
 td button {
-  margin-right: 8px;
   padding: 6px 12px;
+  margin-right: 6px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .sidebar h2 {
+    width: 100%;
+    text-align: center;
+  }
+
+  .sidebar button {
+    width: calc(50% - 4px);
+    margin-bottom: 0;
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar button {
+    width: 100%;
+  }
+
+  .login-box {
+    width: 95%;
+  }
+
+  .card {
+    min-width: 100%;
+  }
 }

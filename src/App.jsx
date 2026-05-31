@@ -55,9 +55,12 @@ function App() {
     const [assignee, setAssignee] = useState("");
 
     const createBug = () => {
+        if (!title.trim()) return;
+
         const newBug = {
-            id: bugs.length + 1,
+            id: Date.now(),
             title,
+            description,
             status,
             priority,
             author: assignee || "admin",
@@ -124,31 +127,22 @@ function App() {
             <aside className="sidebar">
                 <h2>Bug Tracker</h2>
 
-                <button onClick={() => setPage("dashboard")}>
-                    Dashboard
-                </button>
+                <button onClick={() => setPage("dashboard")}>Dashboard</button>
+                <button onClick={() => setPage("bugs")}>Bugs</button>
+                <button onClick={() => setPage("create")}>Create Bug</button>
+                <button onClick={() => setPage("tasks")}>My Tasks</button>
+                <button onClick={() => setPage("users")}>Users</button>
+                <button onClick={() => setPage("reports")}>Reports</button>
 
-                <button onClick={() => setPage("bugs")}>
-                    Bugs
-                </button>
-
-                <button onClick={() => setPage("create")}>
-                    Create Bug
-                </button>
-
-                <button onClick={() => setPage("users")}>
-                    Users
-                </button>
-
-                <button onClick={() => setLoggedIn(false)}>
-                    Logout
-                </button>
+                <button onClick={() => setLoggedIn(false)}>Logout</button>
             </aside>
 
             <main className="content">
+
                 {page === "dashboard" && (
                     <>
                         <h1>Dashboard</h1>
+
                         <div className="cards">
                             <div className="card">
                                 <h3>Total Bugs</h3>
@@ -157,17 +151,17 @@ function App() {
 
                             <div className="card">
                                 <h3>Open</h3>
-                                <p>{bugs.filter((b) => b.status === "Open").length}</p>
+                                <p>{bugs.filter(b => b.status === "Open").length}</p>
                             </div>
 
                             <div className="card">
                                 <h3>In Progress</h3>
-                                <p>{bugs.filter((b) => b.status === "In Progress").length}</p>
+                                <p>{bugs.filter(b => b.status === "In Progress").length}</p>
                             </div>
 
                             <div className="card">
                                 <h3>Closed</h3>
-                                <p>{bugs.filter((b) => b.status === "Closed").length}</p>
+                                <p>{bugs.filter(b => b.status === "Closed").length}</p>
                             </div>
                         </div>
                     </>
@@ -190,7 +184,7 @@ function App() {
                             </thead>
 
                             <tbody>
-                                {bugs.map((bug) => (
+                                {bugs.map(bug => (
                                     <tr key={bug.id}>
                                         <td>{bug.id}</td>
                                         <td>{bug.title}</td>
@@ -222,20 +216,14 @@ function App() {
                                 onChange={(e) => setDescription(e.target.value)}
                             />
 
-                            <select
-                                value={priority}
-                                onChange={(e) => setPriority(e.target.value)}
-                            >
+                            <select value={priority} onChange={(e) => setPriority(e.target.value)}>
                                 <option>Low</option>
                                 <option>Medium</option>
                                 <option>High</option>
                                 <option>Critical</option>
                             </select>
 
-                            <select
-                                value={status}
-                                onChange={(e) => setStatus(e.target.value)}
-                            >
+                            <select value={status} onChange={(e) => setStatus(e.target.value)}>
                                 <option>Open</option>
                                 <option>In Progress</option>
                                 <option>Closed</option>
@@ -249,6 +237,34 @@ function App() {
 
                             <button onClick={createBug}>Create Bug</button>
                         </div>
+                    </>
+                )}
+
+                {page === "tasks" && (
+                    <>
+                        <h1>My Tasks</h1>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {bugs.map(bug => (
+                                    <tr key={bug.id}>
+                                        <td>{bug.id}</td>
+                                        <td>{bug.title}</td>
+                                        <td>{bug.status}</td>
+                                        <td>{bug.priority}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </>
                 )}
 
@@ -269,7 +285,7 @@ function App() {
                             </thead>
 
                             <tbody>
-                                {users.map((user) => (
+                                {users.map(user => (
                                     <tr key={user.id}>
                                         <td>{user.id}</td>
                                         <td>{user.login}</td>
@@ -277,12 +293,8 @@ function App() {
                                         <td>{user.email}</td>
                                         <td>{user.status}</td>
                                         <td>
-                                            <button onClick={() => editUser(user)}>
-                                                Edit
-                                            </button>
-                                            <button onClick={() => deleteUser(user.id)}>
-                                                Delete
-                                            </button>
+                                            <button onClick={() => editUser(user)}>Edit</button>
+                                            <button onClick={() => deleteUser(user.id)}>Delete</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -290,6 +302,30 @@ function App() {
                         </table>
                     </>
                 )}
+
+                {page === "reports" && (
+                    <>
+                        <h1>Reports</h1>
+
+                        <div className="cards">
+                            <div className="card">
+                                <h3>Total Bugs</h3>
+                                <p>{bugs.length}</p>
+                            </div>
+
+                            <div className="card">
+                                <h3>Open</h3>
+                                <p>{bugs.filter(b => b.status === "Open").length}</p>
+                            </div>
+
+                            <div className="card">
+                                <h3>Closed</h3>
+                                <p>{bugs.filter(b => b.status === "Closed").length}</p>
+                            </div>
+                        </div>
+                    </>
+                )}
+
             </main>
         </div>
     );
