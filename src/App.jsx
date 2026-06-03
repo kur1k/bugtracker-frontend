@@ -7,7 +7,7 @@ import {
     getUsers
 } from "./api";
 
-import { API } from "./api";
+
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -64,10 +64,6 @@ function App() {
             const res = await loginAPI(username, password);
 
             localStorage.setItem("token", res.data.access);
-
-            // 🔥 ключевой фикс
-            API.defaults.headers.common["Authorization"] =
-                `Bearer ${res.data.access}`;
 
             setRole(res.data.role);
             setLoggedIn(true);
