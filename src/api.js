@@ -1,4 +1,3 @@
-import axios from "axios";
 
 // создаём единый axios-инстанс
 export const API = axios.create({
